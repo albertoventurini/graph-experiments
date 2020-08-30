@@ -1,11 +1,19 @@
 package com.albertoventurini.graphino.graph.graphml;
 
 import com.albertoventurini.graphino.graph.parser.Grammar;
+import com.albertoventurini.graphino.graph.parser.MatchCharacter;
+import com.albertoventurini.graphino.graph.parser.MatchString;
+import com.albertoventurini.graphino.graph.parser.OneOf;
+import com.albertoventurini.graphino.graph.parser.Rule;
+import com.albertoventurini.graphino.graph.parser.Sequence;
+import com.albertoventurini.graphino.graph.parser.TakeWhileCharacter;
+import com.albertoventurini.graphino.graph.parser.UntilString;
+import com.albertoventurini.graphino.graph.parser.Wrapper;
+import com.albertoventurini.graphino.graph.parser.ZeroOrMore;
+import com.albertoventurini.graphino.graph.parser.ZeroOrOne;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static com.albertoventurini.graphino.graph.parser.Grammar.*;
 
 public class GrammarGraphMLParser implements GraphMLParser {
 
@@ -14,10 +22,10 @@ public class GrammarGraphMLParser implements GraphMLParser {
     public GrammarGraphMLParser() {
 
         final Rule xmlHeader = new Sequence(
-                new Grammar.MatchString("<?xml version='1.0' ?>"));
+                new MatchString("<?xml version='1.0' ?>"));
 
         final Rule comment = new Sequence(
-                new Grammar.MatchString("<!--"),
+                new MatchString("<!--"),
                 new UntilString("-->"));
 
         final Rule comments = new ZeroOrMore(comment);
@@ -28,43 +36,43 @@ public class GrammarGraphMLParser implements GraphMLParser {
                 new TakeWhileCharacter()
         );
 
-        final Grammar.Rule graphmlTag = new Grammar.Sequence(
-                new Grammar.MatchString("<graphml"),
+        final Rule graphmlTag = new Sequence(
+                new MatchString("<graphml"),
                 new UntilString(">"));
 
-        final Grammar.Rule keyTag = new Grammar.Sequence(
-                new Grammar.MatchString("<key"),
-                new Grammar.ZeroOrMore(attribute),
+        final Rule keyTag = new Sequence(
+                new MatchString("<key"),
+                new ZeroOrMore(attribute),
                 new MatchCharacter('>'),
-                new Grammar.MatchString("</key>"));
+                new MatchString("</key>"));
 
-        final Grammar.Rule tag = new Grammar.Sequence(
+        final Rule tag = new Sequence(
                 new MatchCharacter('<'),
                 new TakeWhileCharacter(),
-                new Grammar.ZeroOrMore(attribute),
-                new OneOf(new Grammar.MatchString("/>"), new MatchCharacter('>')));
+                new ZeroOrMore(attribute),
+                new OneOf(new MatchString("/>"), new MatchCharacter('>')));
 
-        final Grammar.Rule closingTag = new Grammar.Sequence(
+        final Rule closingTag = new Sequence(
                 new MatchCharacter('<'),
                 new TakeWhileCharacter(),
-                new Grammar.MatchString("/>"));
+                new MatchString("/>"));
 
         final Wrapper elementContentWrapper = new Wrapper();
 
-        final Grammar.Rule element = new Sequence(
+        final Rule element = new Sequence(
                 tag,
                 elementContentWrapper,
                 new ZeroOrOne(closingTag)
         );
 
-        final Grammar.Rule elementContent = new Grammar.ZeroOrMore(new OneOf(
-                new Grammar.ZeroOrMore(element),
+        final Rule elementContent = new ZeroOrMore(new OneOf(
+                new ZeroOrMore(element),
                 new TakeWhileCharacter()
         ));
 
         elementContentWrapper.setChildRule(elementContent);
 
-        final Grammar.Rule graphml = new Grammar.Sequence(
+        final Rule graphml = new Sequence(
                 xmlHeader,
                 element);
 
