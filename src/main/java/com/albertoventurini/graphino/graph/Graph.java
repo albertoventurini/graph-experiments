@@ -1,0 +1,62 @@
+package com.albertoventurini.graphino.graph;
+
+import com.albertoventurini.graphino.graph.exceptions.DuplicateNodeException;
+import com.albertoventurini.graphino.graph.exceptions.NodeNotFoundException;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+public class Graph {
+
+    private final Set<Node> nodes = new HashSet<>();
+
+    private final Map<String, Node> nodeIdToNode = new HashMap<>();
+
+    private final MapSet<String, Node> nodeLabelToNodes = new MapSet<>();
+
+    public Node addNode(
+            final String label,
+            final String id) {
+
+        if (nodeIdToNode.containsKey(id)) {
+            throw new DuplicateNodeException(id);
+        }
+
+        return new Node(id, label);
+    }
+
+    public Edge addEdge(
+            final String label,
+            final String fromNodeId,
+            final String toNodeId) {
+
+        final Node fromNode = getNodeOrThrow(fromNodeId);
+        final Node toNode = getNodeOrThrow(toNodeId);
+
+        final Edge e = new Edge(label, fromNode, toNode);
+        fromNode.addOutgoingEdge(e);
+        toNode.addIncomingEdge(e);
+
+        return e;
+    }
+
+    public Node getNode(final String id) {
+        return nodeIdToNode.get(id);
+    }
+
+    public Optional<Node> getOptionalNode(final String id) {
+        return Optional.ofNullable(nodeIdToNode.get(id));
+    }
+
+    public Node getNodeOrThrow(final String id) {
+        final Node node = nodeIdToNode.get(id);
+        if (node == null) {
+            throw new NodeNotFoundException(id);
+        }
+        return node;
+    }
+
+}
