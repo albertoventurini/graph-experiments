@@ -19,7 +19,6 @@ public class ParseTree {
         public Node(final String text, final List<ParseTree> children) {
             super(text, children);
         }
-
     }
 
     public ParseTree(final String text, final List<ParseTree> children) {
@@ -41,5 +40,14 @@ public class ParseTree {
 
     public List<ParseTree> getChildren() {
         return children;
+    }
+
+    public ParseTree child(final int i) {
+        return children.get(i);
+    }
+
+    @Override
+    public String toString() {
+        return text;
     }
 }

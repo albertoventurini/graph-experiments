@@ -66,6 +66,10 @@ public class Grammar {
         return new ZeroOrOne(childRule);
     }
 
+    public static OneOrMore oneOrMore(final Rule childRule) {
+        return new OneOrMore(childRule);
+    }
+
     public static Wrapper wrapper() {
         return new Wrapper();
     }

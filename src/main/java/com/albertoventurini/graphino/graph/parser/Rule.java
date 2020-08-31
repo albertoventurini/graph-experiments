@@ -7,7 +7,7 @@ public abstract class Rule {
 
     public boolean isComment = false;
 
-    public Rule named(final String name) {
+    public Rule as(final String name) {
         this.name = name;
         return this;
     }
@@ -19,7 +19,8 @@ public abstract class Rule {
             if (!inComment && isComment) {
                 ctx.setInComment(true);
             }
-            return tryApply(ctx);
+            var result = tryApply(ctx);
+            return result;
         } finally {
             ctx.setInComment(inComment);
         }

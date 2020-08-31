@@ -1,19 +1,14 @@
 package com.albertoventurini.graphino.graph.graphml;
 
 import com.albertoventurini.graphino.graph.parser.Grammar;
-import com.albertoventurini.graphino.graph.parser.MatchCharacter;
-import com.albertoventurini.graphino.graph.parser.MatchString;
-import com.albertoventurini.graphino.graph.parser.OneOf;
 import com.albertoventurini.graphino.graph.parser.Rule;
-import com.albertoventurini.graphino.graph.parser.Sequence;
-import com.albertoventurini.graphino.graph.parser.TakeWhileCharacter;
-import com.albertoventurini.graphino.graph.parser.UntilString;
-import com.albertoventurini.graphino.graph.parser.Wrapper;
-import com.albertoventurini.graphino.graph.parser.ZeroOrMore;
-import com.albertoventurini.graphino.graph.parser.ZeroOrOne;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import static com.albertoventurini.graphino.graph.parser.Grammar.*;
 
 public class GrammarGraphMLParser implements GraphMLParser {
 
@@ -21,62 +16,68 @@ public class GrammarGraphMLParser implements GraphMLParser {
 
     public GrammarGraphMLParser() {
 
-        final Rule xmlHeader = new Sequence(
-                new MatchString("<?xml version='1.0' ?>"));
+        final Rule comment = sequence(string("<!--"), until("-->"));
+        final Rule comments = zeroOrMore(comment);
 
-        final Rule comment = new Sequence(
-                new MatchString("<!--"),
-                new UntilString("-->"));
+        final Rule xmlHeader = string("<?xml version='1.0' ?>");
 
-        final Rule comments = new ZeroOrMore(comment);
+        final Rule attribute = sequence(
+                takeWhile(c -> c != '=' && c != '>'),
+                character('='),
+                character('\''),
+                takeWhile(c -> c != '\''),
+                character('\''));
 
-        final Rule attribute = new Sequence(
-                new TakeWhileCharacter(c -> c != '='),
-                new MatchCharacter('='),
-                new TakeWhileCharacter()
-        );
+        final Function<String, Rule> tagFunc = (s) -> sequence(
+                character('<'),
+                string(s),
+                zeroOrMore(attribute),
+                character('>'));
 
-        final Rule graphmlTag = new Sequence(
-                new MatchString("<graphml"),
-                new UntilString(">"));
+        final Function<String, Rule> closingTagFunc = (s) -> sequence(
+                string("</"),
+                string(s),
+                character('>'));
 
-        final Rule keyTag = new Sequence(
-                new MatchString("<key"),
-                new ZeroOrMore(attribute),
-                new MatchCharacter('>'),
-                new MatchString("</key>"));
+        final BiFunction<String, Rule, Rule> elementFunc = (tagName, content) -> sequence(
+                tagFunc.apply(tagName),
+                content,
+                closingTagFunc.apply(tagName));
 
-        final Rule tag = new Sequence(
-                new MatchCharacter('<'),
-                new TakeWhileCharacter(),
-                new ZeroOrMore(attribute),
-                new OneOf(new MatchString("/>"), new MatchCharacter('>')));
+        final Rule data = sequence(
+                tagFunc.apply("data"),
+                takeWhile(c -> c != '<'),
+                closingTagFunc.apply("data"));
 
-        final Rule closingTag = new Sequence(
-                new MatchCharacter('<'),
-                new TakeWhileCharacter(),
-                new MatchString("/>"));
+        final Rule node = sequence(
+                tagFunc.apply("node"),
+                zeroOrMore(data),
+                closingTagFunc.apply("node"));
 
-        final Wrapper elementContentWrapper = new Wrapper();
+        final Rule edge = sequence(
+                tagFunc.apply("edge"),
+                zeroOrMore(data),
+                closingTagFunc.apply("edge"));
 
-        final Rule element = new Sequence(
-                tag,
-                elementContentWrapper,
-                new ZeroOrOne(closingTag)
-        );
+        final Rule graph = sequence(
+                tagFunc.apply("graph"),
+                oneOrMore(node),
+                oneOrMore(edge),
+                closingTagFunc.apply("graph"));
 
-        final Rule elementContent = new ZeroOrMore(new OneOf(
-                new ZeroOrMore(element),
-                new TakeWhileCharacter()
-        ));
+        final Rule key = sequence(
+                tagFunc.apply("key"),
+                closingTagFunc.apply("key"));
 
-        elementContentWrapper.setChildRule(elementContent);
+        final Rule graphml = sequence(
+                tagFunc.apply("graphml"),
+                oneOrMore(key),
+                graph,
+                closingTagFunc.apply("graphml"));
 
-        final Rule graphml = new Sequence(
-                xmlHeader,
-                element);
+        final Rule graphmlFile = sequence(xmlHeader, graphml);
 
-        grammar = new Grammar(graphml, comments);
+        grammar = new Grammar(graphmlFile, comments);
     }
 
     @Override
