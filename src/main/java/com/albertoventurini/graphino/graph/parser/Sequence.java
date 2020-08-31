@@ -28,7 +28,7 @@ public final class Sequence extends Rule {
             if (child.isEmpty()) {
                 ctx.setCursor(start);
                 return Optional.empty();
-            } else {
+            } else if (!rule.discard) {
                 children.add(child.get());
             }
         }

@@ -16,8 +16,8 @@ public class GrammarGraphMLParser implements GraphMLParser {
 
     public GrammarGraphMLParser() {
 
-        final Rule comment = sequence(string("<!--"), until("-->"));
-        final Rule comments = zeroOrMore(comment);
+        final Rule comment = sequence(string("<!--"), until("-->")).as("comment");
+        final Rule comments = zeroOrMore(comment).as("comments");
 
         final Rule xmlHeader = string("<?xml version='1.0' ?>");
 
@@ -75,9 +75,12 @@ public class GrammarGraphMLParser implements GraphMLParser {
                 graph,
                 closingTagFunc.apply("graphml"));
 
-        final Rule graphmlFile = sequence(xmlHeader, graphml);
+        final Rule graphmlFile = sequence(
+                xmlHeader,
+                comments.discard(),
+                graphml);
 
-        grammar = new Grammar(graphmlFile, comments);
+        grammar = new Grammar(graphmlFile, null);
     }
 
     @Override

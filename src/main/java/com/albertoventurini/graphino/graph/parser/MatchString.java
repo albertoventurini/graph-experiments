@@ -7,6 +7,8 @@ public final class MatchString extends Rule {
 
     public MatchString(final String s) {
         this.s = s;
+
+        discard = true;
     }
 
     @Override

@@ -7,8 +7,20 @@ public abstract class Rule {
 
     public boolean isComment = false;
 
+    protected boolean discard = false;
+
     public Rule as(final String name) {
         this.name = name;
+        return this;
+    }
+
+    public Rule discard() {
+        discard = true;
+        return this;
+    }
+
+    public Rule discard(final boolean discard) {
+        this.discard = discard;
         return this;
     }
 

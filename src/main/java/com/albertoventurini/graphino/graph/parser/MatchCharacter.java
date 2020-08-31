@@ -7,6 +7,8 @@ public final class MatchCharacter extends Rule {
 
     public MatchCharacter(final char c) {
         this.c = c;
+
+        discard = true;
     }
 
     @Override

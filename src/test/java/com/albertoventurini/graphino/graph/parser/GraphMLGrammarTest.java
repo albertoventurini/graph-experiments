@@ -26,12 +26,12 @@ public class GraphMLGrammarTest {
                 character('='),
                 character('\''),
                 takeWhile(c -> c != '\''),
-                character('\''));
+                character('\'')).as("attribute");
 
         final Function<String, Rule> tagFunc = (s) -> sequence(
                 character('<'),
                 string(s),
-                zeroOrMore(attribute),
+                zeroOrMore(attribute).as("attributes"),
                 character('>'));
 
         final Function<String, Rule> closingTagFunc = (s) -> sequence(
@@ -40,9 +40,9 @@ public class GraphMLGrammarTest {
                 character('>'));
 
         final BiFunction<String, Rule, Rule> elementFunc = (tagName, content) -> sequence(
-                tagFunc.apply(tagName),
+                tagFunc.apply(tagName).as("tag:" + tagName),
                 content.as("content"),
-                closingTagFunc.apply(tagName));
+                closingTagFunc.apply(tagName).as("closingTag:" + tagName));
 
         final Rule data = elementFunc.apply("data", takeWhile(c -> c != '<')).as("dataElem");
 
