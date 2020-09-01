@@ -1,4 +1,4 @@
-package com.albertoventurini.graphino.graph.parser;
+package com.albertoventurini.graphino.parser;
 
 public class ParseException extends RuntimeException {
 

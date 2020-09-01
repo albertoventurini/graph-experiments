@@ -1,4 +1,4 @@
-package com.albertoventurini.graphino.graph.graphml;
+package com.albertoventurini.graphino.graphml;
 
 import java.util.Map;
 

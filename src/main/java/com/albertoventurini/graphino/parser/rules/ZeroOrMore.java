@@ -1,7 +1,7 @@
-package com.albertoventurini.graphino.graph.parser.rules;
+package com.albertoventurini.graphino.parser.rules;
 
-import com.albertoventurini.graphino.graph.parser.GrammarContext;
-import com.albertoventurini.graphino.graph.parser.ParseTree;
+import com.albertoventurini.graphino.parser.GrammarContext;
+import com.albertoventurini.graphino.parser.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;

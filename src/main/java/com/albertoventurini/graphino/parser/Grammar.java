@@ -1,17 +1,17 @@
-package com.albertoventurini.graphino.graph.parser;
+package com.albertoventurini.graphino.parser;
 
-import com.albertoventurini.graphino.graph.parser.rules.AnyCharacter;
-import com.albertoventurini.graphino.graph.parser.rules.MatchCharacter;
-import com.albertoventurini.graphino.graph.parser.rules.MatchString;
-import com.albertoventurini.graphino.graph.parser.rules.OneOf;
-import com.albertoventurini.graphino.graph.parser.rules.OneOrMore;
-import com.albertoventurini.graphino.graph.parser.rules.Rule;
-import com.albertoventurini.graphino.graph.parser.rules.Sequence;
-import com.albertoventurini.graphino.graph.parser.rules.TakeWhileCharacter;
-import com.albertoventurini.graphino.graph.parser.rules.UntilString;
-import com.albertoventurini.graphino.graph.parser.rules.Wrapper;
-import com.albertoventurini.graphino.graph.parser.rules.ZeroOrMore;
-import com.albertoventurini.graphino.graph.parser.rules.ZeroOrOne;
+import com.albertoventurini.graphino.parser.rules.AnyCharacter;
+import com.albertoventurini.graphino.parser.rules.MatchCharacter;
+import com.albertoventurini.graphino.parser.rules.MatchString;
+import com.albertoventurini.graphino.parser.rules.OneOf;
+import com.albertoventurini.graphino.parser.rules.OneOrMore;
+import com.albertoventurini.graphino.parser.rules.Rule;
+import com.albertoventurini.graphino.parser.rules.Sequence;
+import com.albertoventurini.graphino.parser.rules.TakeWhileCharacter;
+import com.albertoventurini.graphino.parser.rules.UntilString;
+import com.albertoventurini.graphino.parser.rules.Wrapper;
+import com.albertoventurini.graphino.parser.rules.ZeroOrMore;
+import com.albertoventurini.graphino.parser.rules.ZeroOrOne;
 
 import java.util.Optional;
 import java.util.function.Predicate;

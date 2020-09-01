@@ -8,11 +8,11 @@ import java.util.Set;
 
 public class Node {
 
-    private final String id;
-    private final String label;
-    private final Set<Edge> outgoingEdges;
-    private final Set<Edge> incomingEdges;
-    private final Map<String, Object> properties;
+    public final String id;
+    public final String label;
+    public final Set<Edge> outgoingEdges;
+    public final Set<Edge> incomingEdges;
+    public final Map<String, Object> properties;
 
     public Node(
             final String id,
@@ -63,4 +63,5 @@ public class Node {
     Set<Edge> getIncomingEdges() {
         return incomingEdges;
     }
+
 }

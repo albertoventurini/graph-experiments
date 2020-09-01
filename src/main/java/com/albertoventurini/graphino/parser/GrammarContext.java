@@ -1,6 +1,6 @@
-package com.albertoventurini.graphino.graph.parser;
+package com.albertoventurini.graphino.parser;
 
-import com.albertoventurini.graphino.graph.parser.rules.Rule;
+import com.albertoventurini.graphino.parser.rules.Rule;
 
 public class GrammarContext extends ParseContext {
     private final Rule commentRule;

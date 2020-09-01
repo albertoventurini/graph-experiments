@@ -1,6 +1,6 @@
-package com.albertoventurini.graphino.graph.parser;
+package com.albertoventurini.graphino.parser;
 
-import com.albertoventurini.graphino.graph.parser.rules.Rule;
+import com.albertoventurini.graphino.parser.rules.Rule;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
@@ -8,8 +8,8 @@ import java.nio.file.Path;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static com.albertoventurini.graphino.graph.parser.Grammar.*;
-import static com.albertoventurini.graphino.graph.parser.Grammar.sequence;
+import static com.albertoventurini.graphino.parser.Grammar.*;
+import static com.albertoventurini.graphino.parser.Grammar.sequence;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GraphMLGrammarTest {

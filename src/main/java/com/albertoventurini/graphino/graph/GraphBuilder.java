@@ -1,4 +1,5 @@
 package com.albertoventurini.graphino.graph;
 
-public class GraphBuilder {
+public interface GraphBuilder<T> {
+    Graph build(T source);
 }

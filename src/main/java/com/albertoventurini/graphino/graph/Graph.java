@@ -11,21 +11,24 @@ import java.util.Set;
 
 public class Graph {
 
-    private final Set<Node> nodes = new HashSet<>();
+//    private final Set<Node> nodes = new HashSet<>();
 
     private final Map<String, Node> nodeIdToNode = new HashMap<>();
 
     private final MapSet<String, Node> nodeLabelToNodes = new MapSet<>();
 
     public Node addNode(
-            final String label,
-            final String id) {
+            final String id,
+            final String label) {
 
         if (nodeIdToNode.containsKey(id)) {
             throw new DuplicateNodeException(id);
         }
 
-        return new Node(id, label);
+        final Node n = new Node(id, label);
+        nodeIdToNode.put(id, n);
+        nodeLabelToNodes.put(label, n);
+        return n;
     }
 
     public Edge addEdge(
@@ -57,6 +60,10 @@ public class Graph {
             throw new NodeNotFoundException(id);
         }
         return node;
+    }
+
+    public Set<Node> getNodesByLabel(final String label) {
+        return nodeLabelToNodes.get(label);
     }
 
 }

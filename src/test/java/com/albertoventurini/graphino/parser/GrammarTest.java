@@ -1,6 +1,6 @@
-package com.albertoventurini.graphino.graph.parser;
+package com.albertoventurini.graphino.parser;
 
-import com.albertoventurini.graphino.graph.parser.rules.Rule;
+import com.albertoventurini.graphino.parser.rules.Rule;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
@@ -8,7 +8,7 @@ import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static com.albertoventurini.graphino.graph.parser.Grammar.*;
+import static com.albertoventurini.graphino.parser.Grammar.*;
 
 public class GrammarTest {
 

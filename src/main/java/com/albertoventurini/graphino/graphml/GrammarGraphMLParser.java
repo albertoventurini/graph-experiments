@@ -1,8 +1,8 @@
-package com.albertoventurini.graphino.graph.graphml;
+package com.albertoventurini.graphino.graphml;
 
-import com.albertoventurini.graphino.graph.parser.Grammar;
-import com.albertoventurini.graphino.graph.parser.ParseTree;
-import com.albertoventurini.graphino.graph.parser.rules.Rule;
+import com.albertoventurini.graphino.parser.Grammar;
+import com.albertoventurini.graphino.parser.ParseTree;
+import com.albertoventurini.graphino.parser.rules.Rule;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.albertoventurini.graphino.graph.parser.Grammar.*;
+import static com.albertoventurini.graphino.parser.Grammar.*;
 
 public class GrammarGraphMLParser implements GraphMLParser {
 
@@ -147,11 +147,4 @@ public class GrammarGraphMLParser implements GraphMLParser {
                 .findFirst()
                 .orElseThrow();
     }
-
-    public static void main(String[] args) {
-        var result = new GrammarGraphMLParser().parse("/Users/alberto/Devel/graphino/air-routes-latest.graphml");
-        int i = 0;
-    }
-
-
 }

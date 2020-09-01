@@ -1,5 +1,6 @@
 package com.albertoventurini.graphino.graph;
 
+import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -15,8 +16,12 @@ public class Query {
         return new Nodes(graph.getOptionalNode(id).stream());
     }
 
+    public Nodes withLabel(final String label) {
+        return new Nodes(graph.getNodesByLabel(label).stream());
+    }
+
     public static class Nodes {
-        final Stream<Node> nodes;
+        public final Stream<Node> nodes;
 
         public Nodes(final Stream<Node> nodes) {
             this.nodes = nodes;
@@ -35,6 +40,14 @@ public class Query {
         public Nodes where(final Predicate<Node> predicate) {
             return new Nodes(nodes.filter(predicate));
         }
+
+        public <T> Nodes where(final String propertyName, final Class<T> clazz, final Predicate<T> predicate) {
+            return new Nodes(nodes.filter(n -> predicate.test(clazz.cast(n.properties.get(propertyName)))));
+        }
+
+        public Stream<Node> stream() {
+            return nodes;
+        }
     }
 
     public static class Relationships {
@@ -48,17 +61,17 @@ public class Query {
             return new Nodes(relationships.map(r -> r.target));
         }
 
-//        public <T> Nodes toNodes(final Class<T> clazz) {
-//            return new Nodes(relationships.filter(r -> clazz.isInstance(r.toNode.value)).map(r -> r.toNode));
-//        }
+        public Nodes toNodes(final String label) {
+            return new Nodes(relationships.filter(r -> r.target.label.equals(label)).map(r -> r.target));
+        }
 
         public Nodes fromNodes() {
             return new Nodes(relationships.map(r -> r.source));
         }
 
-//        public <T> Nodes fromNodes(final Class<T> clazz) {
-//            return new Nodes(relationships.filter(r -> clazz.isInstance(r.fromNode.value)).map(r -> r.fromNode));
-//        }
+        public Nodes fromNodes(final String label) {
+            return new Nodes(relationships.filter(r -> r.source.label.equals(label)).map(r -> r.source));
+        }
 
         public Relationships where(final Predicate<Edge> predicate) {
             return new Relationships(relationships.filter(predicate));
