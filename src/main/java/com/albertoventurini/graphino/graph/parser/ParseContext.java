@@ -1,7 +1,5 @@
 package com.albertoventurini.graphino.graph.parser;
 
-import com.albertoventurini.graphino.graph.graphml.ParseException;
-
 import java.util.Arrays;
 
 public class ParseContext {

@@ -1,5 +1,6 @@
 package com.albertoventurini.graphino.graph.parser;
 
+import com.albertoventurini.graphino.graph.parser.rules.Rule;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;

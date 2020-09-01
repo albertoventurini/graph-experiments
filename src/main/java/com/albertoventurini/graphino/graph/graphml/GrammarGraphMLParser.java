@@ -2,7 +2,7 @@ package com.albertoventurini.graphino.graph.graphml;
 
 import com.albertoventurini.graphino.graph.parser.Grammar;
 import com.albertoventurini.graphino.graph.parser.ParseTree;
-import com.albertoventurini.graphino.graph.parser.Rule;
+import com.albertoventurini.graphino.graph.parser.rules.Rule;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,6 +1,8 @@
 package com.albertoventurini.graphino.graph.parser;
 
-class GrammarContext extends ParseContext {
+import com.albertoventurini.graphino.graph.parser.rules.Rule;
+
+public class GrammarContext extends ParseContext {
     private final Rule commentRule;
     private boolean inComment;
 
@@ -11,7 +13,7 @@ class GrammarContext extends ParseContext {
         this.commentRule = commentRule;
     }
 
-    void advanceToNextToken() {
+    public void advanceToNextToken() {
         discardWhitespaces();
         if (!inComment) {
             discardComments();
@@ -19,11 +21,11 @@ class GrammarContext extends ParseContext {
         }
     }
 
-    boolean isInComment() {
+    public boolean isInComment() {
         return inComment;
     }
 
-    void setInComment(final boolean inComment) {
+    public void setInComment(final boolean inComment) {
         this.inComment = inComment;
     }
 
