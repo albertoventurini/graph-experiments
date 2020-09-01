@@ -6,18 +6,18 @@ import java.util.Map;
 public class Edge {
 
     public final String label;
-    public final Node fromNode;
-    public final Node toNode;
+    public final Node source;
+    public final Node target;
 
     public final Map<String, Object> properties;
 
     public Edge(
             final String label,
-            final Node fromNode,
-            final Node toNode) {
+            final Node source,
+            final Node target) {
         this.label = label;
-        this.fromNode = fromNode;
-        this.toNode = toNode;
+        this.source = source;
+        this.target = target;
 
         properties = new HashMap<>();
     }

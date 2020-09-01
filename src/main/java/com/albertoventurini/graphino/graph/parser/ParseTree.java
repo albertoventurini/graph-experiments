@@ -2,6 +2,7 @@ package com.albertoventurini.graphino.graph.parser;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ParseTree {
 
@@ -44,6 +45,27 @@ public class ParseTree {
 
     public ParseTree child(final int i) {
         return children.get(i);
+    }
+
+    public Optional<ParseTree> getFirstDescendantByName(final String name) {
+        if (name.equals(text)) {
+            return Optional.of(this);
+        }
+
+        for (final ParseTree child : children) {
+            final Optional<ParseTree> descendant = child.getFirstDescendantByName(name);
+            if (descendant.isPresent()) {
+                return descendant;
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public ParseTree child(final String name) {
+        return children.stream().filter(c -> name.equals(c.text))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Child not found: " + name));
     }
 
     @Override

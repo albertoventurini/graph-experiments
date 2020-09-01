@@ -31,8 +31,7 @@ public abstract class Rule {
             if (!inComment && isComment) {
                 ctx.setInComment(true);
             }
-            var result = tryApply(ctx);
-            return result;
+            return tryApply(ctx);
         } finally {
             ctx.setInComment(inComment);
         }

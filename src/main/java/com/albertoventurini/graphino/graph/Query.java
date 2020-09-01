@@ -45,7 +45,7 @@ public class Query {
         }
 
         public Nodes toNodes() {
-            return new Nodes(relationships.map(r -> r.toNode));
+            return new Nodes(relationships.map(r -> r.target));
         }
 
 //        public <T> Nodes toNodes(final Class<T> clazz) {
@@ -53,7 +53,7 @@ public class Query {
 //        }
 
         public Nodes fromNodes() {
-            return new Nodes(relationships.map(r -> r.fromNode));
+            return new Nodes(relationships.map(r -> r.source));
         }
 
 //        public <T> Nodes fromNodes(final Class<T> clazz) {

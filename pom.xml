@@ -4,7 +4,7 @@
 
   <groupId>com.albertoventurini.graphino</groupId>
   <artifactId>graphino</artifactId>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <version>0.1.0-SNAPSHOT</version>
 
   <name>graphino</name>
@@ -15,7 +15,7 @@
     <antlr.version>4.7.1</antlr.version>
     <junit.version>5.6.1</junit.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-shade.plugin.version>3.2.2</maven-shade.plugin.version>
   </properties>
@@ -58,38 +58,24 @@
 
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven-compiler-plugin.version}</version>
-          <configuration>
-            <source>11</source>
-            <target>11</target>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>${maven-shade.plugin.version}</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
 
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
         <configuration>
-          <source>11</source>
-          <target>11</target>
+          <release>14</release>
+          <compilerArgs>--enable-preview</compilerArgs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <argLine>--enable-preview</argLine>
         </configuration>
       </plugin>
     </plugins>
