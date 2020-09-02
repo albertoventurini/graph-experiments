@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 public class GetConnectedCountries {
 
+    /**
+     * Given an airport code, this query returns the names of countries that can be reached from the airport.
+     */
     public static Set<String> execute(final Graph graph, final String sourceAirport) {
 
         return new Query(graph).withLabel("airport")
